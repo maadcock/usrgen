@@ -5,7 +5,8 @@ import './App.css';
   state = {
     count: 0,
     fname: '',
-    lname: ''
+    lname: '',
+    error: ''
   }
 
   constructor(props){
@@ -23,8 +24,23 @@ import './App.css';
     this.setState({lname : event.target.value})
   }
 
-  handleSubmit(){
-    this.setState({name : this.state.fname + " " + this.state.lname})
+  handleSubmit(e){
+    e.preventDefault();
+    this.setState({error: ''})
+    let newNum = Math.floor(Math.random() * 99999999)
+    let len = newNum.length
+    let fInt = newNum.toString().substr(0,1)
+    let lInt = newNum.toString().substr(7,8)
+    this.setState({number : newNum})
+    this.setState({fInt : fInt})
+    this.setState({lInt : lInt})
+    this.setState({len : len})
+    if (newNum.length === 7) {
+      this.setState({error: 'Invalid number!'})
+    }
+  } 
+
+  handleClear(){
   } 
 
   render() {
@@ -32,13 +48,16 @@ import './App.css';
       <div className="App">
           <header className="App-header">
           <form>
-            <input type="text" onChange={this.updateFName}></input><br />
-            <input type="text" onChange={this.updateLName}></input><br />
+            <input type="text" placeholder="First Name" onChange={this.updateFName}></input><br />
+            <input type="text" placeholder="Last Name" onChange={this.updateLName}></input><br />
             <input type="submit" onClick={this.handleSubmit} ></input>
+            <input value="Clear" type="submit" onClick={this.handleClear} ></input>
           </form>
-          <h1>
-            {this.state.name}
-          </h1>
+          <h2>{this.state.name}</h2>
+          <h2>{this.state.number}</h2>
+          <h2>{this.state.fInt}</h2>
+          <h2>{this.state.lInt}</h2>
+          <h2>{this.state.len}</h2>
         </header>
       </div>
     )
