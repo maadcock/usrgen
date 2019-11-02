@@ -4,9 +4,10 @@ import './App.css';
   class App extends React.Component {
   state = {
     count: 0,
+    newNumber: '',
     fname: '',
     lname: '',
-    error: ''
+    email: '',
   }
 
   constructor(props){
@@ -26,17 +27,13 @@ import './App.css';
 
   handleSubmit(e){
     e.preventDefault();
-    this.setState({error: ''})
+    let email = this.state.fname.toLowerCase() + '.' + this.state.lname.toLowerCase() + '@domain.com'
     let newNum = Math.floor(Math.random() * 99999999)
-    let len = newNum.length
     let fInt = newNum.toString().substr(0,1)
     let lInt = newNum.toString().substr(7,8)
-    this.setState({number : newNum})
-    this.setState({fInt : fInt})
-    this.setState({lInt : lInt})
-    this.setState({len : len})
-    if (newNum.length === 7) {
-      this.setState({error: 'Invalid number!'})
+    this.setState({newNumber : newNum, email : email, name :  this.state.fname + ' ' + this.state.lname})
+    if (newNum.toString().length !== 8 || fInt === '0' || lInt === '0') {
+      this.handleSubmit(e)
     }
   } 
 
@@ -53,11 +50,11 @@ import './App.css';
             <input type="submit" onClick={this.handleSubmit} ></input>
             <input value="Clear" type="submit" onClick={this.handleClear} ></input>
           </form>
-          <h2>{this.state.name}</h2>
-          <h2>{this.state.number}</h2>
-          <h2>{this.state.fInt}</h2>
-          <h2>{this.state.lInt}</h2>
-          <h2>{this.state.len}</h2>
+          <p>
+            Technician Name: {this.state.name}<br/>
+            Technician Email: {this.state.email}<br/>
+            Technician ID Number: {this.state.newNumber}
+          </p>
         </header>
       </div>
     )
